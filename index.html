@@ -1,1 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จองห้องพัก</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0f3c, #1b2b6f);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      width: 90%;
+      max-width: 420px;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 22px;
+      padding: 32px 22px;
+      text-align: center;
+    }
+    h1 { margin: 0; font-size: 28px; }
+    h2 { margin: 10px 0 20px; font-weight: normal; font-size: 16px; opacity: 0.9; }
 
+    .links { display:flex; gap:8px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
+    .links a {
+      display:inline-block;
+      padding:8px 12px;
+      background: rgba(255,255,255,0.9);
+      color:#0b1b4a;
+      border-radius: 16px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+    }
+    .links a:hover { opacity:0.9; }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin: 14px 0;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      background: #ffffff;
+      color: #222;
+    }
+
+    .section { display: none; text-align: left; }
+    label { display: block; margin-top: 15px; }
+    select, input[type="url"], input[type="date"], input[type="month"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: none;
+      appearance: none;
+    }
+
+    .status {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .green { background: #2ecc71; }
+    .red { background: #e74c3c; }
+
+    .back { margin-top: 20px; background: #ddd; color:#222; }
+    ul { padding-left: 20px; }
+
+    .rule-box {
+      background: rgba(255,255,255,0.15);
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 16px;
+    }
+
+    .price-box {
+      background: rgba(255,255,255,0.15);
+      padding: 20px;
+      border-radius: 16px;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    a.inline-link {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .note { font-size: 13px; opacity: 0.9; margin-top:6px; }
+  </style>
+</head>
+<body>
+
+<div class="card" id="home">
+  <h1>จองห้องพัก</h1>
+  <h2>อพาร์ทเมนท์บ้านสวน 2</h2>
+
+  <div class="links">
+    <!-- เปลี่ยนลิงก์ตัวอย่างเป็นของจริง -->
+    <a href="https://YOUR_WEBSITE_URL" target="_blank" rel="noopener noreferrer">เว็บไซต์</a>
+    <a href="https://www.google.com/maps/place/%E0%B8%AB%E0%B8%B2%E0%B8%94%E0%B9%83%E0%B8%AB%E0%B8%8D%E0%B9%88%E0%B8%9A%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%AA%E0%B8%A7%E0%B8%99+%E0%B8%AD%E0%B8%9E%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%97%E0%B9%80%E0%B8%A1%E0%B9%89%E0%B8%99%E0%B8%97%E0%B9%8C+(%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2+2)/@7.0186952,100.4926295,17z/data=!3m1!4b1!4m6!3m5!1s0x304d2907dd7829c9:0xb1ae1de40f5a8c9a!8m2!3d7.0186952!4d100.4952044!16s%2Fg%2F1hc1vsz4z?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D"
+   target="_blank"
+   rel="noopener noreferrer">
+   แผนที่
+</a>
+    <a href="https://YOUR_LINE_URL" target="_blank" rel="noopener noreferrer">LINE Official</a>
+  </div>
+
+  <button onclick="showSection('booking')">ดูห้องพัก</button>
+  <button onclick="showSection('rules')">กฎและข้อมูลของหอพัก</button>
+  <button onclick="showSection('checkout')">เช็คเอาท์</button>
+</div>
+
+<div class="card section" id="booking">
+  <h1>เลือกห้องพัก</h1>
+
+  <label>เลือกตึก</label>
+  <select id="building">
+    <option>ตึก 1</option>
+    <option>ตึก 2</option>
+    <option>ตึก 3</option>
+  </select>
+
+  <label>เลือกชั้น</label>
+  <select id="floor">
+    <option>ชั้น 1</option>
+    <option>ชั้น 2</option>
+    <option>ชั้น 3</option>
+  </select>
+
+  <label>เลือกเลขห้อง</label>
+  <select id="room"></select>
+
+  <label>จำนวนวันที่เข้าพัก</label>
+  <select id="stayDays">
+    <option value="">-- เลือกจำนวนวัน --</option>
+    <option value="1">1 วัน</option>
+    <option value="2">2 วัน</option>
+    <option value="3">3 วัน</option>
+    <option value="4">4 วัน</option>
+    <option value="5">5 วัน</option>
+  </select>
+
+  <label>เลือกวันที่เข้าพัก</label>
+  <input type="date" id="checkinDate">
+
+  <label>เลือกเดือนเข้าพัก</label>
+  <input type="month" id="checkinMonth">
+
+  <label>ลิ้งเว็บไซต์ (ถ้ามี) — เช่น หน้ารายละเอียดห้องหรือลิงก์ชำระเงิน</label>
+  <input type="url" id="externalLink" placeholder="https://example.com/room123 (ไม่จำเป็น)">
+
+  <button onclick="goPrice()">ถัดไป</button>
+  <button class="back" onclick="goHome()">ย้อนกลับ</button>
+</div>
+
+<div class="card section" id="price">
+  <h1>ราคาห้องพัก</h1>
+  <div class="price-box" id="priceDetail"></div>
+  <button onclick="confirmBooking()">ยืนยันการจอง</button>
+  <button class="back" onclick="goHome()">ย้อนกลับ</button>
+</div>
+
+<div class="card section" id="rules">
+  <h1>กฎของหอพัก</h1>
+  <div class="rule-box">
+    <ul>
+      <li>ห้ามส่งเสียงดังหลัง 22:00 น.</li>
+      <li>ห้ามเลี้ยงสัตว์</li>
+      <li>ห้ามสูบบุหรี่ภายในอาคาร</li>
+      <li>ดูแลความสะอาดพื้นที่ส่วนกลาง</li>
+      <li>ชำระค่าเช่าภายในวันที่ 5 ของทุกเดือน</li>
+    </ul>
+    <p class="note">อ่านกฎฉบับเต็มในหน้าเว็บไซต์: <a href="https://YOUR_WEBSITE_URL/rules" target="_blank" rel="noopener noreferrer" class="inline-link">กฎและข้อบังคับ</a></p>
+  </div>
+  <button class="back" onclick="goHome()">ย้อนกลับ</button>
+</div>
+
+<div class="card section" id="checkout">
+  <h1>ข้อมูลเช็คเอาท์</h1>
+  <div class="price-box" id="checkoutInfo"></div>
+  <button class="back" onclick="goHome()">ย้อนกลับ</button>
+</div>
+
+<script>
+  const unavailableRooms = ['1202','2101'];
+
+  function showSection(id) {
+    document.getElementById('home').style.display = 'none';
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function goHome() {
+    document.getElementById('home').style.display = 'block';
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  }
+
+  function updateRooms() {
+    const building = document.getElementById('building').value.replace('ตึก ','');
+    const floor = document.getElementById('floor').value.replace('ชั้น ','');
+    const roomSelect = document.getElementById('room');
+
+    roomSelect.innerHTML = '';
+    if (!building || !floor) return;
+
+    for (let i = 1; i <= 2; i++) {
+      const roomNo = `${building}${floor}0${i}`;
+      const opt = document.createElement('option');
+      opt.value = roomNo;
+
+      if (unavailableRooms.includes(roomNo)) {
+        opt.text = `${roomNo} - ไม่ว่าง`;
+        opt.disabled = true;
+      } else {
+        opt.text = `${roomNo} - ว่าง`;
+      }
+      roomSelect.appendChild(opt);
+    }
+  }
+
+  document.getElementById('building').addEventListener('change', updateRooms);
+  document.getElementById('floor').addEventListener('change', updateRooms);
+
+  function goPrice() {
+    const building = document.getElementById('building').value;
+    const floor = document.getElementById('floor').value;
+    const room = document.getElementById('room').value;
+    const date = document.getElementById('checkinDate').value;
+    const month = document.getElementById('checkinMonth').value;
+    const days = document.getElementById('stayDays').value;
+    const externalLink = document.getElementById('externalLink').value;
+
+    if (!room || !date || !month || !days) {
+      alert('กรุณาเลือกข้อมูลให้ครบ');
+      return;
+    }
+
+    const depositPerDay = 300;
+    const totalDeposit = depositPerDay * days;
+
+    let linkHtml = '';
+    if (externalLink) {
+      linkHtml = `<p><b>ลิงก์เพิ่มเติม:</b> <a href="${externalLink}" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:underline;">เปิดลิงก์</a></p>`;
+    }
+
+    document.getElementById('priceDetail').innerHTML = `
+      <p><b>ตึก:</b> ${building}</p>
+      <p><b>ชั้น:</b> ${floor}</p>
+      <p><b>ห้อง:</b> ${room}</p>
+      <p><b>วันที่เข้าพัก:</b> ${date}</p>
+      <p><b>เดือนเข้าพัก:</b> ${month}</p>
+      <p><b>จำนวนวันที่พัก:</b> ${days} วัน</p>
+      <p><b>ค่ามัดจำต่อวัน:</b> ${depositPerDay} บาท</p>
+      <p><b>รวมค่ามัดจำ:</b> ${totalDeposit} บาท</p>
+      <p><b>ค่าเช่ารายเดือน:</b> 3,500 บาท</p>
+      ${linkHtml}
+    `;
+
+    showSection('price');
+  }
+
+
+  function confirmBooking() {
+    const now = new Date();
+    const checkin = new Date(document.getElementById('checkinDate').value);
+    const days = parseInt(document.getElementById('stayDays').value);
+    const externalLink = document.getElementById('externalLink').value;
+
+    const checkout = new Date(checkin);
+    checkout.setDate(checkout.getDate() + days);
+
+    let linkHtml = '';
+    if (externalLink) {
+      linkHtml = `<p><b>ลิงก์เพิ่มเติม:</b> <a href="${externalLink}" target="_blank" rel="noopener noreferrer" style="color:#fff;text-decoration:underline;">เปิดลิงก์</a></p>`;
+    }
+
+    document.getElementById('checkoutInfo').innerHTML = `
+      <p><b>วันที่เช็คอิน:</b> ${checkin.toLocaleDateString()}</p>
+      <p><b>วันที่เช็คเอาท์:</b> ${checkout.toLocaleDateString()}</p>
+      <p><b>เวลาเช็คเอาท์:</b> 12:00 น.</p>
+      ${linkHtml}
+    `;
+
+    // เปลี่ยน URL นี้เป็น webhook จริงของคุณ (ต้องเป็น HTTPS)
+    fetch('https://YOUR_LINE_WEBHOOK_URL', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        room: document.getElementById('room').value,
+        checkin: checkin.toISOString(),
+        checkout: checkout.toISOString(),
+        days: days,
+        link: externalLink || ''
+      })
+    }).catch(err => console.warn('Webhook error:', err));
+
+    setTimeout(() => {
+      if (now < checkin) {
+        alert('การจองถูกยกเลิกอัตโนมัติ เนื่องจากไม่มาเช็คอิน');
+      }
+    }, 86400000);
+
+    showSection('checkout');
+  }
+</script>
+
+</body>
+</html>
